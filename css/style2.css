@@ -1,0 +1,14 @@
+body{
+    overflow-x:hidden !important;
+}
+.carousel-item h1{
+    font-size: 48px;
+    padding-bottom: 10px;
+}
+.carousel-item p{
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 20px;
+    color: #fff;
+
+}
