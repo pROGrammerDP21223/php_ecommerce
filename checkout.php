@@ -393,21 +393,19 @@ if (!isset($_SESSION['cart_p_id'])) {
                                     <select name="payment_method" class="form-control select2" id="paymentMethod"
                                         style="margin-top: 15px">
                                         <option value=""><?php echo LANG_VALUE_35; ?></option>
-                                        <option value="paypal"><?php echo LANG_VALUE_36; ?></option>
+                                        <option value="payu">PayU Biz</option>
                                         <option value="bank"><?php echo LANG_VALUE_38; ?></option>
                                     </select>
                                 </div>
 
-                                <!-- PayPal Form -->
-                                <form class="paypal" action="payment/paypal/payment_process.php"
-                                    method="post" id="paypalForm" target="_blank" style="display: none;">
+                                
+                                <form class="payu" action="payment/payu/payment_process.php"
+                                    method="post" id="payuForm" target="_blank" style="display: none;">
                                     <input type="hidden" id="udf5" name="udf5" value="PayUBiz_PHP7_Kit" />				
-                                    <input type="text" id="txnid" name="txnid" placeholder="Transaction ID" value="<?php echo  "Txn" . rand(10000,99999999)?>" /></span>
-                                    <input type="text" id="firstname" name="firstname" placeholder="First Name" value="" /></span>
-                                    <input type="text" id="email" name="email" placeholder="Email ID" value="" /></span>
-                                    <input type="hidden" name="amount" value="6.00" >
-                                    <input type="text" id="productinfo" name="productinfo" placeholder="Product Info" value="P01,P02" /></span>
-                                    <input type="text" id="Pg" name="Pg" placeholder="PG" value="CC" /></span>
+                                    <input type="hidden" id="txnid" name="txnid" placeholder="Transaction ID" value="<?php echo  "Txn" . rand(10000,99999999)?>" />
+                                  
+                                    <input type="hidden" name="amount" value="<?php echo $final_total; ?>" >
+                          
                                     <div class="col-12 form-group">
                                         <input type="submit" class="btn btn-primary w-100" value="<?php echo LANG_VALUE_46; ?>"
                                          >
@@ -443,17 +441,17 @@ if (!isset($_SESSION['cart_p_id'])) {
 
                         <script>
                             document.getElementById('paymentMethod').addEventListener('change', function () {
-                                var paypalForm = document.getElementById('paypalForm');
+                                var payuForm = document.getElementById('payuForm');
                                 var bankForm = document.getElementById('bankForm');
 
-                                if (this.value === 'paypal') {
-                                    paypalForm.style.display = 'block';
+                                if (this.value === 'payu') {
+                                    payuForm.style.display = 'block';
                                     bankForm.style.display = 'none';
                                 } else if (this.value === 'bank') {
-                                    paypalForm.style.display = 'none';
+                                    payuForm.style.display = 'none';
                                     bankForm.style.display = 'block';
                                 } else {
-                                    paypalForm.style.display = 'none';
+                                    payuForm.style.display = 'none';
                                     bankForm.style.display = 'none';
                                 }
                             });
