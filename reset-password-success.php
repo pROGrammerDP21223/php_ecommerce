@@ -20,7 +20,7 @@ foreach ($result as $row) {
                                 <!-- breadcrumb-list start -->
                                 <ul class="breadcrumb-ul">
                                     <li class="breadcrumb-li">
-                                        <a class="breadcrumb-link" href="index.html">Home</a>
+                                        <a class="breadcrumb-link" href="index.php">Home</a>
                                     </li>
                                     <li class="breadcrumb-li">
                                         <span class="breadcrumb-text">Reset Password</span>

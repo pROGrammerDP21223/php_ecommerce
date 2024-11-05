@@ -1,23 +1,18 @@
-
 <?php
 session_start();
-/*Note : After completing transaction process it is recommended to make an enquiry call with PayU to validate the response received and then save the response to DB or display it on UI*/
-$json_data = file_get_contents('customer_session_data.json');
+$file_path = 'customer_session_data.json';
 
-// Decode the JSON data into an associative array
-$session_data = json_decode($json_data, true);
-$_SESSION['customer'] = [];
-
-foreach ($session_data as $key => $value) {
-    $_SESSION['customer'][$key] = $value; // Store in the 'customer' sub-array
+if (file_exists($file_path)) {
+    $json_data = file_get_contents($file_path);
+    $session_data = json_decode($json_data, true);
+    $_SESSION['customer'] = $session_data ?: []; // Fallback to empty array if decode fails
+    unlink($file_path);
 }
 
-unlink('customer_session_data.json');
+
 $postdata = $_POST;
 $msg = '';
 $salt = "UkojH5TS"; //Salt already saved in session during initial request.
-
-
 
 if (isset($postdata ['key'])) {
 	$key				=   $postdata['key'];
@@ -50,13 +45,13 @@ if (isset($postdata ['key'])) {
 		//Do success order processing here...
 		//Additional step - Use verify payment api to double check payment.
 		if(verifyPayment($key,$salt,$txnid,$status))
-			$msg = "Transaction Successful, Hash Verified...Payment Verified...";
+        echo renderMessage("Transaction Successful", "Thank You for Your Order!", true);
 		else
-			$msg = "Transaction Successful, Hash Verified...Payment Verification failed...";
+		echo renderMessage("Verification Failed", "Your transaction could not be verified.", false);
 	}
 	else {
 		//tampered or failed
-		$msg = "Payment failed for Hash not verified...";
+        echo renderMessage("Verification Failed", "Your transaction could not be verified.", false);
 	} 
 }
 else exit(0);
@@ -119,97 +114,20 @@ function verifyPayment($key,$salt,$txnid,$status)
 		return false;	
 	}
 }
-?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>PayUBiz PHP7 Kit</title>
-</head>
-<style type="text/css">
-	.main {
-		margin-left:30px;
-		font-family:Verdana, Geneva, sans-serif, serif;
-	}
-	.text {
-		float:left;
-		width:180px;
-	}
-	.dv {
-		margin-bottom:5px;
-	}
-	.info{
-		color:#536152;	
-	}
-	td{
-		border-style:solid; 
-		border-width:1px; 
-	}
-</style>
-<body>
-<div class="main">
-	<div>
-    	<img src="images/logo.png" />
-    </div>
-    <div>
-    	<h3>PHP7 PayUBiz Response</h3>
-    </div>
-	<!-- See below for all response parameters and their brief descriptions //-->    
-    
-    <div class="dv">
-    <span class="text"><label>Transaction/Order ID:</label></span>
-    <span><?php echo $txnid; ?></span>
-    </div>
-    
-    <div class="dv">
-    <span class="text"><label>Amount:</label></span>
-    <span><?php echo $amount; ?></span>    
-    </div>
-    
-    <div class="dv">
-    <span class="text"><label>Product Info:</label></span>
-    <span><?php echo $productInfo; ?></span>
-    </div>
-    
-    <div class="dv">
-    <span class="text"><label>First Name:</label></span>
-    <span><?php echo $firstname; ?></span>
-    </div>
-    
-    <div class="dv">
-    <span class="text"><label>Email ID:</label></span>
-    <span><?php echo $email; ?></span>
-    </div>
-	
-	<div class="dv">
-    <span class="text"><label>Additional Charges:</label></span>
-    <span><?php echo $additionalCharges; ?></span>
-    </div>
-    
-    <div class="dv">
-    <span class="text"><label>Hash:</label></span>
-    <span><?php echo $resphash; ?></span>
-    </div>
-    
-    <div class="dv">
-    <span class="text"><label>Transaction Status:</label></span>
-    <span><?php echo $status; ?></span>
-    </div>
-    
-    <div class="dv">
-    <span class="text"><label>Message:</label></span>
-    <span><strong><?php echo $msg; ?></strong></span>
-    </div>
-    
-    <br />
-    <br />
-    <div class="dv">
-    <span class="text"><label><a href="./">New Order</a></label></span>    
-    </div>
-    
-	
-</div>
-</body>
-</html>
-	
+function renderMessage($title, $message, $success)
+{
+    $bgColor = $success ? "#53bf8b" : "#DE524C";
+    $icon = $success ? "✓" : "✗";
+    return "
+    <html>
+        <body style='display: flex; align-items: center; justify-content: center; height: 95vh;'>
+            <div class='box' style='text-align: center; padding: 30px; border: 1px solid #bfbfbf; width: 50%;'>
+                <div style='background: $bgColor; width: 100px; height: 100px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 50px;'>$icon</div>
+                <h1>$title</h1>
+                <p>$message</p>
+                <p><a href='/customer-order.php'>Click Here to Check Order Status</a></p>
+            </div>
+        </body>
+    </html>";
+}

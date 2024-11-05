@@ -75,7 +75,7 @@ if(isset($_POST['form1'])) {
                                 <!-- breadcrumb-list start -->
                                 <ul class="breadcrumb-ul">
                                     <li class="breadcrumb-li">
-                                        <a class="breadcrumb-link" href="index.html">Home</a>
+                                        <a class="breadcrumb-link" href="index.php">Home</a>
                                     </li>
                                     <li class="breadcrumb-li">
                                         <span class="breadcrumb-text">Reset Password</span>
@@ -104,8 +104,14 @@ if(isset($_POST['form1'])) {
                                         </div>
                                     </div>
                                 </div>
-                                <!-- account title end -->
-                                <!-- account login start -->
+                                <?php
+                    if($error_message != '') {
+                        echo "<script>alert('".$error_message."')</script>";
+                    }
+                    if($success_message != '') {
+                        echo "<script>alert('".$success_message."')</script>";
+                    }
+                    ?>
                                 <div class="log-acc-page">
                                     <div class="contact-form-list">
                                         <form method="post" action="">

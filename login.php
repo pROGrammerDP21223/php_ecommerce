@@ -44,7 +44,7 @@ if(isset($_POST['form1'])) {
             // Encode session data to JSON and save it to a file
             $json_data = json_encode($_SESSION['customer']);
             file_put_contents('customer_session_data.json', $json_data);
-                    header("location: ".BASE_URL."dashboard.php");
+                    header("location: dashboard.php");
                 }
             }
             
@@ -100,8 +100,14 @@ foreach ($result as $row) {
                                         <h2 data-animate="animate__fadeInUp"><span>Login account</span></h2>
                                     </div>
                                 </div>
-                                <!-- account login title end -->
-                                <!-- account login start  -->
+                                <?php
+                                if($error_message != '') {
+                                    echo "<div class='error' style='padding: 10px;background:#f1f1f1;margin-bottom:20px;'>".$error_message."</div>";
+                                }
+                                if($success_message != '') {
+                                    echo "<div class='success' style='padding: 10px;background:#f1f1f1;margin-bottom:20px;'>".$success_message."</div>";
+                                }
+                                ?>
                                 <div class="log-acc-page">
                                     <div class="contact-form-list">
                                         <form method="post" action="">

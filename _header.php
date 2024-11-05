@@ -273,7 +273,7 @@
                              </div>
                              <div class="header-element header-logo">
                                  <div class="header-theme-logo">
-                                     <a href="index.html" class="theme-logo">
+                                     <a href="index.php" class="theme-logo">
                                          <img src="assets/uploads/<?php echo $logo; ?>" class="img-fluid" alt="logo">
                                      </a>
                                  </div>
@@ -313,7 +313,7 @@
                                      <ul class="details-ul">
                                          <li class="info-wrap info-headphones">
                                              <div class="info-wrapper">
-                                                 <a href="index.html" class="icon"><i class="feather-headphones"></i></a>
+                                                 <a href="index.php" class="icon"><i class="feather-headphones"></i></a>
                                                  <div class="info-text">
                                                      <span class="label">Hotline Mail</span>
                                                      <a href="tel:+260005002600" class="info-link"><?php echo $contact_email; ?></a>
@@ -328,7 +328,7 @@
 
                                          <li class="info-wrap info-Login">
                                              <div class="info-wrapper">
-                                                 <a href="index.html" class="icon"><i class="feather-user"></i></a>
+                                                 <a href="index.php" class="icon"><i class="feather-user"></i></a>
                                                  <div class="info-text">
                                                      <span class="label">My account</span>
                                                      <a href="<?php echo $accountLink; ?>" class="info-link">
@@ -359,7 +359,7 @@
                                      <div class="main-wrap">
                                          <ul class="main-menu">
                                              <li class="menu-link">
-                                                 <a href="index.html" class="link-title">
+                                                 <a href="index.php" class="link-title">
                                                      <span class="sp-link-title">Home</span>
                                                  </a>
 
@@ -399,7 +399,7 @@
                                                                                 foreach ($result2 as $row2) {
                                                                                 ?>
                                                                                  <li class="menumegasup-li">
-                                                                                     <a href="collection-without.html" class="menumegasup-title">
+                                                                                     <a href="product-category.php?id=<?php echo $row2['ecat_id']; ?>&type=end-category" class="menumegasup-title">
                                                                                          <span class="sp-link-title"><?php echo $row2['ecat_name']; ?></span>
                                                                                      </a>
                                                                                  </li>

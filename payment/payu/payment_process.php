@@ -138,9 +138,7 @@ if ($sql) {
 	file_put_contents('customer_session_data.json', $json_data);
 	if (strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 
-		$hash = hash('sha512', $key11 . '|' . $_POST['txnid'] . '|' . $_POST['amount'] . '|' . $product_info . '|' . $_SESSION['customer']['cust_name'] . '|' . $_SESSION['customer']['cust_email'] . '|||||' . $_POST['udf5'] . '||||||' . $salt11);
-
-		$_SESSION['salt'] = $salt11; //save salt in session to use during Hash validation in response
+		$hash=hash('sha512', $key11.'|'.$_POST['txnid'].'|'.$_POST['amount'].'|'.$product_info.'|'.$_SESSION['customer']['cust_name'].'|'.$_SESSION['customer']['cust_email'].'|||||'.$_POST['udf5'].'||||||'.$salt11);
 
 		$html = '<form action="' . $action . '" id="payment_form_submit" method="post">
 			<input type="hidden" id="udf5" name="udf5" value="' . $_POST['udf5'] . '" />
@@ -178,7 +176,7 @@ if ($sql) {
 
 function getCallbackUrl()
 {
-	$specificUrl = "http://localhost/github/php_ecommerce/response.php";
+	$specificUrl = "http://localhost/github/php_ecommerce/payment/payu/response.php";
     
 		return $specificUrl;
 }
